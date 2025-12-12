@@ -1,0 +1,198 @@
+<?xml version='1.0' encoding='utf-8'?>
+<ns0:style xmlns:ns0="http://purl.org/net/xbiblio/csl" version="1.0" class="in-text" default-locale="en-US" demote-non-dropping-particle="sort-only">
+
+  <ns0:info>
+    <ns0:title>Vancouver Custom - final (supports literal authors for VN names)</ns0:title>
+    <ns0:id>http://www.zotero.org/styles/vancouver-custom-final-6</ns0:id>
+    <ns0:link href="http://www.zotero.org/styles/vancouver-custom-final-6" rel="self" />
+    <ns0:link href="http://www.zotero.org/styles/vancouver" rel="template" />
+    <ns0:author><ns0:name>Modified by ChatGPT</ns0:name></ns0:author>
+    <ns0:category citation-format="numeric" />
+    <ns0:category field="medicine" />
+    <ns0:summary>Custom Vancouver: author (year), "title", books &amp; theses italic, edition after book title, comma separators. For Vietnamese authors, enter full name in the single-field author entry (literal) so CSL will print it verbatim; for non-Vietnamese, enter family/given to allow initials.</ns0:summary>
+    <ns0:updated>2025-12-11T13:14:19.407553Z</ns0:updated>
+  </ns0:info>
+
+  
+  <ns0:citation>
+    <ns0:sort>
+      <ns0:key variable="citation-number" />
+    </ns0:sort>
+    <ns0:layout delimiter="],[" prefix="[" suffix="]">
+      <ns0:text variable="citation-number" />
+    </ns0:layout>
+  </ns0:citation>
+
+  
+  <ns0:macro name="author">
+    <ns0:names variable="author">
+      <ns0:name form="long" initialize-with="." name-as-sort-order="all" />
+      <ns0:label form="short" prefix=", " />
+      
+    </ns0:names>
+  </ns0:macro>
+
+  <ns0:macro name="year-paren">
+    <ns0:date variable="issued">
+      <ns0:date-part name="year" prefix="(" suffix=")" />
+    </ns0:date>
+  </ns0:macro>
+
+  <ns0:macro name="title-quoted">
+    <ns0:text variable="title" prefix="&quot;" suffix="&quot;" />
+  </ns0:macro>
+
+  <ns0:macro name="title-italic">
+    <ns0:text variable="title" font-style="italic" />
+  </ns0:macro>
+
+  <ns0:macro name="edition">
+    <ns0:choose>
+      <ns0:if is-numeric="edition">
+        <ns0:number variable="edition" form="ordinal" suffix=" ed." />
+      </ns0:if>
+      <ns0:else>
+        <ns0:text variable="edition" />
+      </ns0:else>
+    </ns0:choose>
+  </ns0:macro>
+
+  <ns0:macro name="pages">
+    <ns0:choose>
+      <ns0:if variable="page">
+        <ns0:text variable="page" />
+      </ns0:if>
+    </ns0:choose>
+  </ns0:macro>
+
+  <ns0:macro name="journal">
+    <ns0:group delimiter=", ">
+      <ns0:text variable="container-title" font-style="italic" />
+      <ns0:group>
+        <ns0:text variable="volume" />
+        <ns0:text variable="issue" prefix="(" suffix=")" />
+      </ns0:group>
+      <ns0:text macro="pages" />
+    </ns0:group>
+  </ns0:macro>
+
+  <ns0:macro name="book">
+    <ns0:group delimiter=", ">
+      <ns0:text macro="title-italic" />
+      <ns0:text macro="edition" />
+      <ns0:text variable="publisher" />
+      <ns0:text variable="publisher-place" />
+    </ns0:group>
+  </ns0:macro>
+
+  <ns0:macro name="chapter">
+    <ns0:group delimiter=", ">
+      <ns0:text macro="title-quoted" />
+      <ns0:group delimiter=" ">
+        <ns0:text value="In:" />
+        <ns0:names variable="editor">
+          <ns0:name initialize-with="." delimiter=", " sort-separator=" " />
+        </ns0:names>
+      </ns0:group>
+      <ns0:text variable="container-title" font-style="italic" />
+      <ns0:text macro="edition" />
+      <ns0:text variable="publisher" />
+      <ns0:text variable="publisher-place" />
+      <ns0:text macro="pages" />
+    </ns0:group>
+  </ns0:macro>
+
+  <ns0:macro name="thesis">
+    <ns0:group delimiter=", ">
+      <ns0:text macro="title-italic" />
+      <ns0:text variable="publisher" />
+      <ns0:text variable="publisher-place" />
+      <ns0:text macro="pages" />
+    </ns0:group>
+  </ns0:macro>
+
+  <ns0:macro name="web">
+    <ns0:group delimiter=", ">
+      <ns0:text macro="title-quoted" />
+      <ns0:text value="[online]" />
+      <ns0:group delimiter=" ">
+        <ns0:text value="Available at:" />
+        <ns0:text variable="URL" />
+      </ns0:group>
+      <ns0:group>
+        <ns0:text value="[Accessed " />
+        <ns0:date variable="accessed">
+          <ns0:date-part name="day" suffix=" " />
+          <ns0:date-part name="month" form="long" suffix=" " />
+          <ns0:date-part name="year" />
+        </ns0:date>
+        <ns0:text value="]" />
+      </ns0:group>
+    </ns0:group>
+  </ns0:macro>
+
+  
+  <ns0:macro name="doi">
+    <ns0:choose>
+      <ns0:if variable="DOI">
+        <ns0:text variable="DOI" prefix="https://doi.org/" />
+      </ns0:if>
+    </ns0:choose>
+  </ns0:macro>
+
+  <ns0:macro name="locators">
+    <ns0:choose>
+      <ns0:if type="article-journal">
+        <ns0:text macro="journal" />
+      </ns0:if>
+      <ns0:else-if type="chapter paper-conference">
+        <ns0:text macro="chapter" />
+      </ns0:else-if>
+      <ns0:else-if type="book">
+        <ns0:text macro="book" />
+      </ns0:else-if>
+      <ns0:else-if type="thesis report">
+        <ns0:text macro="thesis" />
+      </ns0:else-if>
+      <ns0:else-if type="webpage post post-weblog">
+        <ns0:text macro="web" />
+      </ns0:else-if>
+      <ns0:else>
+        <ns0:text variable="publisher" />
+      </ns0:else>
+    </ns0:choose>
+  </ns0:macro>
+
+  
+  <ns0:locale xml:lang="en">
+    <ns0:terms>
+      <ns0:term name="et-al">et al</ns0:term>
+    </ns0:terms>
+  </ns0:locale>
+
+  <ns0:bibliography et-al-min="4" et-al-use-first="3" hanging-indent="true" second-field-align="flush">
+    <ns0:sort>
+      <ns0:key variable="citation-number" />
+    </ns0:sort>
+    <ns0:layout>
+      <ns0:text variable="citation-number" suffix=". " />
+      <ns0:text macro="author" />
+      <ns0:text macro="year-paren" prefix=" " />
+      <ns0:choose>
+        <ns0:if type="article-journal chapter paper-conference webpage post post-weblog">
+          <ns0:text macro="title-quoted" prefix=", " />
+        </ns0:if>
+        <ns0:else-if type="book thesis report">
+          <ns0:text macro="title-italic" prefix=", " />
+        </ns0:else-if>
+        <ns0:else>
+          <ns0:text macro="title-quoted" prefix=", " />
+        </ns0:else>
+      </ns0:choose>
+      <ns0:text macro="locators" prefix=", " />
+      <ns0:text value="." />
+    
+      <ns0:text variable="DOI" prefix=" https://doi.org/" suffix="." /></ns0:layout>
+  </ns0:bibliography>
+
+</ns0:style>
